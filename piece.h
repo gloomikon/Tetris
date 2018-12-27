@@ -1,13 +1,15 @@
 #ifndef TETRIXPIECE_H
 #define TETRIXPIECE_H
 
+#include "drawable.h"
+
 enum TetrixShape
 {
     NoShape, ZShape, SShape, IShape, TShape, SquareShape, LShape, JShape,  //0-7
-    LineBomb //8-..
+    SquareBomb //8-..
 };
 
-class TetrixPiece
+class TetrixPiece : public Drawable
 {
 protected:
     TetrixShape pieceShape;
@@ -15,7 +17,6 @@ protected:
 
 public:
     TetrixPiece();
-    virtual ~TetrixPiece();
     void setRandomShape();
     void setShape(TetrixShape shape);
     TetrixShape shape();
@@ -31,6 +32,8 @@ public:
     TetrixPiece* rotatedLeft();
     TetrixPiece* rotatedRight();
     virtual void updateBoard();
+    virtual TetrixPiece* returnCopyOfSelf();
+    virtual void draw(QWidget *w) override;
 };
 
 #endif

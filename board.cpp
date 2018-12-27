@@ -71,7 +71,9 @@ void TetrixBoard::paintEvent(QPaintEvent *event)
                            boardTop + i * squareHeight(), shape);
         }
     }
-    if (curPiece->shape() != NoShape) {
+    if (curPiece->shape() != NoShape)
+        curPiece->draw(this);
+    /*if (curPiece->shape() != NoShape) {
         for (int i = 0; i < 4; ++i) {
             int x = curX + curPiece->x(i);
             int y = curY - curPiece->y(i);
@@ -79,7 +81,7 @@ void TetrixBoard::paintEvent(QPaintEvent *event)
                        boardTop + (BoardHeight - y - 1) * squareHeight(),
                       curPiece->shape());
         }
-    }
+    }*/
 }
 
 void TetrixBoard::keyPressEvent(QKeyEvent *event)
@@ -188,6 +190,76 @@ void TetrixBoard::removeFullLines()
         if (lineIsFull)
         {
             ++numFullLines;
+            for (int j = 0; j < BoardWidth; ++j)
+                if (shapeAt(j, i) == SquareBomb) //тута взрываем бомбму-кругляшёк
+                {
+                    if (j > 0)
+                    {
+                        if (i > 0)
+                        {
+                            qDebug() << "j > 0 i > 0";
+                            for (int k = i; k < BoardHeight - 2; ++k)
+                                shapeAt(j - 1, k - 1) = shapeAt(j - 1, k + 1);
+                            shapeAt(j - 1, BoardHeight - 1) = NoShape;
+                            shapeAt(j - 1, BoardHeight - 2) = NoShape;
+                            for (int k = i; k < BoardHeight - 2; ++k)
+                                shapeAt(j, k - 1) = shapeAt(j, k + 1);
+                            shapeAt(j, BoardHeight - 1) = NoShape;
+                            shapeAt(j, BoardHeight - 2) = NoShape;
+                            if (j < BoardWidth - 1)
+                                for (int k = i; k < BoardHeight - 2; ++k)
+                                    shapeAt(j + 1, k - 1) = shapeAt(j + 1, k + 1);
+                                shapeAt(j + 1, BoardHeight - 1) = NoShape;
+                                shapeAt(j + 1, BoardHeight - 2) = NoShape;
+                        }
+                        if (i == 0)
+                        {
+                            qDebug() << "j > 0 i == 0";
+                            for (int k = i; k < BoardHeight - 2; ++k)
+                                shapeAt(j - 1, k) = shapeAt(j - 1, k + 1);
+                            shapeAt(j - 1, BoardHeight - 1) = NoShape;
+                            shapeAt(j - 1, BoardHeight - 2) = NoShape;
+                            for (int k = i; k < BoardHeight - 2; ++k)
+                                shapeAt(j, k) = shapeAt(j, k + 1);
+                            shapeAt(j, BoardHeight - 1) = NoShape;
+                            shapeAt(j, BoardHeight - 2) = NoShape;
+                            if (j < BoardWidth - 1)
+                                for (int k = i; k < BoardHeight - 2; ++k)
+                                    shapeAt(j + 1, k) = shapeAt(j + 1, k + 1);
+                                shapeAt(j + 1, BoardHeight - 1) = NoShape;
+                                shapeAt(j + 1, BoardHeight - 2) = NoShape;
+                        }
+                    }
+                    if (j == 0)
+                    {
+                        if (i > 0)
+                        {
+                            qDebug() << "j == 0 i > 0";
+                            for (int k = i; k < BoardHeight - 2; ++k)
+                                shapeAt(j, k - 1) = shapeAt(j, k + 1);
+                            shapeAt(j, BoardHeight - 1) = NoShape;
+                            shapeAt(j, BoardHeight - 2) = NoShape;
+                            if (j < BoardWidth - 1)
+                                for (int k = i; k < BoardHeight - 2; ++k)
+                                    shapeAt(j + 1, k - 1) = shapeAt(j + 1, k + 1);
+                                shapeAt(j + 1, BoardHeight - 1) = NoShape;
+                                shapeAt(j + 1, BoardHeight - 2) = NoShape;
+                        }
+                        if (i == 0)
+                        {
+                            qDebug() << "j == 0 i == 0";
+                            for (int k = i; k < BoardHeight - 2; ++k)
+                                shapeAt(j, k) = shapeAt(j, k + 1);
+                            shapeAt(j, BoardHeight - 1) = NoShape;
+                            shapeAt(j, BoardHeight - 2) = NoShape;
+                            if (j < BoardWidth - 1)
+                                for (int k = i; k < BoardHeight - 2; ++k)
+                                    shapeAt(j + 1, k) = shapeAt(j + 1, k + 1);
+                                shapeAt(j + 1, BoardHeight - 1) = NoShape;
+                                shapeAt(j + 1, BoardHeight - 2) = NoShape;
+                    }
+                }
+                }
             for (int k = i; k < BoardHeight - 1; ++k)
             {
                 for (int j = 0; j < BoardWidth; ++j)
@@ -267,9 +339,10 @@ bool TetrixBoard::tryMove(TetrixPiece *newPiece, int newX, int newY)
 
 void TetrixBoard::drawSquare(QPainter &painter, int x, int y, TetrixShape shape)
 {
-    static const QRgb colorTable[8] = {
+    static const QRgb colorTable[9] = {
         0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
-        0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00
+        0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00,
+        0x000000
     };
     QColor color = colorTable[int(shape)];
     painter.fillRect(x + 1, y + 1, squareWidth() - 2, squareHeight() - 2, color);

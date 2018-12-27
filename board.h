@@ -24,6 +24,9 @@ public:
     {
         return board[(y * BoardWidth) + x];
     }
+    int squareWidth() { return contentsRect().width() / BoardWidth; }
+    int squareHeight() { return contentsRect().height() / BoardHeight; }
+    void drawSquare(QPainter &painter, int x, int y, TetrixShape shape);
 
 public slots:
     void start();
@@ -54,8 +57,6 @@ private:
     TetrixShape* board;
 
     int timeoutTime() { return 1000 / (1 + level); }
-    int squareWidth() { return contentsRect().width() / BoardWidth; }
-    int squareHeight() { return contentsRect().height() / BoardHeight; }
     void clearBoard();
     void dropDown();
     void oneLineDown();
@@ -64,7 +65,6 @@ private:
     void newPiece();
     void showNextPiece();
     bool tryMove(TetrixPiece* newPiece, int newX, int newY);
-    void drawSquare(QPainter &painter, int x, int y, TetrixShape shape);
 
 };
 

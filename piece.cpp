@@ -2,16 +2,13 @@
 #include <stdlib.h>
 #include "piece.h"
 #include "board.h"
+#include <QPainter>
 
 TetrixPiece::TetrixPiece()
 {
     setShape(NoShape);
 }
 
-TetrixPiece::~TetrixPiece()
-{
-
-}
 
 void TetrixPiece::setRandomShape()
 {
@@ -96,7 +93,7 @@ int TetrixPiece::maxY()
 
 TetrixPiece* TetrixPiece::rotatedLeft()
 {
-    TetrixPiece* result = new TetrixPiece;
+    TetrixPiece* result = returnCopyOfSelf();
     result->pieceShape = this->pieceShape;
     for (int i = 0; i < 4; ++i) {
         result->setX(i, y(i));
@@ -107,7 +104,7 @@ TetrixPiece* TetrixPiece::rotatedLeft()
 
 TetrixPiece* TetrixPiece::rotatedRight()
 {
-    TetrixPiece* result = new TetrixPiece;
+    TetrixPiece* result = returnCopyOfSelf();
     result->pieceShape = pieceShape;
     for (int i = 0; i < 4; ++i) {
         result->setX(i, -y(i));
@@ -123,5 +120,29 @@ void TetrixPiece::updateBoard()
         int x = TetrixBoard::Instance()->getCurX() + this->x(i);
         int y = TetrixBoard::Instance()->getCurY() - this->y(i);
         TetrixBoard::Instance()->shapeAt(x, y) = this->shape();
+    }
+}
+
+TetrixPiece *TetrixPiece::returnCopyOfSelf()
+{
+    TetrixPiece* result = new TetrixPiece;
+    result->pieceShape = pieceShape;
+    for (int i = 0; i < 4; ++i) {
+        result->setX(i, x(i));
+        result->setY(i, y(i));
+    }
+    return result;
+}
+
+void TetrixPiece::draw(QWidget *w)
+{
+    QPainter painter(w);
+    QRect rect = TetrixBoard::Instance()->contentsRect();
+    int boardTop = rect.top();
+    for (int i = 0; i < 4; ++i)
+    {
+        int x = TetrixBoard::Instance()->getCurX() + this->x(i);
+        int y = TetrixBoard::Instance()->getCurY() - this->y(i);
+        TetrixBoard::Instance()->drawSquare(painter, rect.left() + x * TetrixBoard::Instance()->squareWidth(), boardTop + (BoardHeight - y - 1) * TetrixBoard::Instance()->squareHeight(), this->shape());
     }
 }
