@@ -65,6 +65,8 @@ private:
     void newPiece();
     void showNextPiece();
     bool tryMove(TetrixPiece* newPiece, int newX, int newY);
+    TetrixShape*    getBoard();
+    int checkLava();
 
 };
 

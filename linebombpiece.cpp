@@ -1,5 +1,5 @@
 #include "linebombpiece.h"
 
-lineBombPiece::lineBombPiece() : superPiece (TetrixShape(8))
+lineBombPiece::lineBombPiece() : superPiece (TetrixShape(9))
 {
 }

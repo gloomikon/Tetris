@@ -5,7 +5,7 @@
 class Drawable
 {
 public:
-    virtual void draw(QWidget *w);
+    virtual void draw(QWidget *w) = 0;
     virtual ~Drawable() = 0;
 };
 

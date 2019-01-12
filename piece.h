@@ -6,7 +6,7 @@
 enum TetrixShape
 {
     NoShape, ZShape, SShape, IShape, TShape, SquareShape, LShape, JShape,  //0-7
-    SquareBomb //8-..
+    Lava, SquareBomb //8-9..
 };
 
 class TetrixPiece : public Drawable
