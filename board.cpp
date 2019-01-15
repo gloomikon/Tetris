@@ -30,6 +30,11 @@ void TetrixBoard::start()
     score = 0;
     level = 1;
     clearBoard();
+
+    emit linesRemovedChanged(numLinesRemoved);
+    emit scoreChanged(score);
+    emit levelChanged(level);
+
     newPiece();
     timer.start(timeoutTime(), this);
 }
@@ -71,15 +76,6 @@ void TetrixBoard::paintEvent(QPaintEvent *)
     }
     if (curPiece->shape() != NoShape)
         curPiece->draw(this);
-    /*if (curPiece->shape() != NoShape) {
-        for (int i = 0; i < 4; ++i) {
-            int x = curX + curPiece->x(i);
-            int y = curY - curPiece->y(i);
-            drawSquare(painter, rect.left() + x * squareWidth(),
-                       boardTop + (BoardHeight - y - 1) * squareHeight(),
-                      curPiece->shape());
-        }
-    }*/
 }
 
 void TetrixBoard::keyPressEvent(QKeyEvent *event)
@@ -178,9 +174,12 @@ void TetrixBoard::pieceDropped(int dropHeight)
     {
         ++level;
         timer.start(timeoutTime(), this);
+        emit levelChanged(level);
     }
 
     score += dropHeight + 7;
+        emit scoreChanged(score);
+
     removeFullLines();
 
     if (!isWaitingAfterLine)
@@ -275,6 +274,8 @@ void TetrixBoard::removeFullLines()
     {
         numLinesRemoved += numFullLines;
         score += 10 * numFullLines;
+        emit linesRemovedChanged(numLinesRemoved);
+        emit scoreChanged(score);
 
         timer.start(500, this);
         isWaitingAfterLine = true;

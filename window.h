@@ -16,10 +16,16 @@ public:
     TetrixWindow();
     ~TetrixWindow();
 private:
-    TetrixBoard *board;
+    //TetrixBoard *board;
     QPushButton *startButton;
     QPushButton *pauseButton;
     QPushButton *quitButton;
+    QLabel *nextPieceLabel;
+    QLCDNumber *scoreLcd;
+    QLCDNumber *levelLcd;
+    QLCDNumber *linesLcd;
+
+    QLabel* createLabel(QString text);
 };
 
 #endif

@@ -32,6 +32,11 @@ public slots:
     void start();
     void pause();
 
+signals:
+    void scoreChanged(int score);
+    void levelChanged(int level);
+    void linesRemovedChanged(int numLines);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
