@@ -3,6 +3,7 @@
 
 #include "board.h"
 #include "linebombpiece.h"
+#include "window.h"
 
 TetrixBoard::TetrixBoard(QWidget *parent) : QFrame(parent)
 {
@@ -21,6 +22,8 @@ TetrixBoard::TetrixBoard(QWidget *parent) : QFrame(parent)
 
 void TetrixBoard::start()
 {
+    TetrixWindow::Instance()->getState()->stateToGame(TetrixWindow::Instance());
+    TetrixWindow::Instance()->getState()->windowAction(TetrixWindow::Instance());
     if (isPaused)
         return;
     isStarted = true;
@@ -53,6 +56,13 @@ void TetrixBoard::pause()
         timer.start(timeoutTime(), this);
     }
     update();
+}
+
+void TetrixBoard::menu()
+{
+    TetrixWindow::Instance()->getState()->stateToMainMenu(TetrixWindow::Instance());
+    TetrixWindow::Instance()->getState()->windowAction(TetrixWindow::Instance());
+    timer.stop();
 }
 
 void TetrixBoard::paintEvent(QPaintEvent *)

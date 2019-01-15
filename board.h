@@ -31,6 +31,7 @@ public:
 public slots:
     void start();
     void pause();
+    void menu();
 
 signals:
     void scoreChanged(int score);

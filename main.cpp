@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    TetrixWindow window;
-    window.show();
+    //TetrixWindow window;
+    TetrixWindow::Instance()->show();
     return app.exec();
 }
