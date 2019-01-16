@@ -20,6 +20,7 @@ public:
     }
     int getCurX() { return curX; }
     int getCurY() { return curY; }
+    TetrixShape*    getBoard();
     TetrixShape &shapeAt(int x, int y)
     {
         return board[(y * BoardWidth) + x];
@@ -27,6 +28,7 @@ public:
     int squareWidth() { return contentsRect().width() / BoardWidth; }
     int squareHeight() { return contentsRect().height() / BoardHeight; }
     void drawSquare(QPainter &painter, int x, int y, TetrixShape shape);
+    void setAwaitingUpd() { isWaitingAfterLine = true; }
 
 public slots:
     void start();
@@ -69,9 +71,8 @@ private:
     void pieceDropped(int dropHeight);
     void removeFullLines();
     void newPiece();
-    void showNextPiece();
+    //void showNextPiece();
     bool tryMove(TetrixPiece* newPiece, int newX, int newY);
-    TetrixShape*    getBoard();
     int checkLava();
 
 };

@@ -6,7 +6,9 @@ HEADERS       = board.h \
     superpiece.h \
     linebombpiece.h \
     drawable.h \
-    windowstate.h
+    windowstate.h \
+    squarebombpiece.h \
+    horizontallinebomb.h
 SOURCES       = main.cpp \
                 board.cpp \
                 piece.cpp \
@@ -14,8 +16,13 @@ SOURCES       = main.cpp \
     superpiece.cpp \
     linebombpiece.cpp \
     drawable.cpp \
-    windowstate.cpp
+    windowstate.cpp \
+    squarebombpiece.cpp \
+    horizontallinebomb.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/tetrix
 INSTALLS += target
+
+RESOURCES += \
+    src.qrc

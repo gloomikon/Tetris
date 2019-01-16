@@ -6,7 +6,7 @@
 enum TetrixShape
 {
     NoShape, ZShape, SShape, IShape, TShape, SquareShape, LShape, JShape,  //0-7
-    Lava, SquareBomb //8-9..
+    Lava, SquareBomb, LineBomb, HorizontalLineBomb//8-11..
 };
 
 class TetrixPiece : public Drawable
@@ -17,6 +17,7 @@ protected:
 
 public:
     TetrixPiece();
+     virtual void droppedAction();
     void setRandomShape();
     void setShape(TetrixShape shape);
     TetrixShape shape();
@@ -34,6 +35,7 @@ public:
     virtual void updateBoard();
     virtual TetrixPiece* returnCopyOfSelf();
     virtual void draw(QWidget *w) override;
+    static TetrixPiece *GeneratePiece(int choice);
 };
 
 #endif

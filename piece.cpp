@@ -2,11 +2,19 @@
 #include <stdlib.h>
 #include "piece.h"
 #include "board.h"
+#include "linebombpiece.h"
+#include "horizontallinebomb.h"
+#include "squarebombpiece.h"
 #include <QPainter>
 
 TetrixPiece::TetrixPiece()
 {
     setShape(NoShape);
+}
+
+void TetrixPiece::droppedAction()
+{
+
 }
 
 
@@ -145,4 +153,17 @@ void TetrixPiece::draw(QWidget *w)
         int y = TetrixBoard::Instance()->getCurY() - this->y(i);
         TetrixBoard::Instance()->drawSquare(painter, rect.left() + x * TetrixBoard::Instance()->squareWidth(), boardTop + (BoardHeight - y - 1) * TetrixBoard::Instance()->squareHeight(), this->shape());
     }
+}
+
+TetrixPiece *TetrixPiece::GeneratePiece(int choice)
+{
+    if (choice == 0)
+        return new TetrixPiece;
+    if (choice == 1)
+        return new SquareBombPiece;
+    if (choice == 2)
+        return new lineBombPiece;
+    if (choice == 3)
+        return new horizontalLineBomb;
+    return nullptr;
 }

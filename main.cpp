@@ -9,5 +9,8 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     //TetrixWindow window;
     TetrixWindow::Instance()->show();
-    return app.exec();
+    int ret =  app.exec();
+    TetrixWindow::Instance()->updateUserName();
+    TetrixWindow::Instance()->saveLog();
+    return ret;
 }

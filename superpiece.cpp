@@ -3,6 +3,7 @@
 #include "board.h"
 #include <QPainter>
 
+
 superPiece::superPiece(TetrixShape superType) : TetrixPiece (), superType{superType}
 {
     superPos = QRandomGenerator::global()->bounded(4);

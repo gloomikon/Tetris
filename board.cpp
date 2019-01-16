@@ -3,11 +3,14 @@
 
 #include "board.h"
 #include "linebombpiece.h"
+#include "horizontallinebomb.h"
+#include "squarebombpiece.h"
 #include "window.h"
 
 TetrixBoard::TetrixBoard(QWidget *parent) : QFrame(parent)
 {
     setStyleSheet("border-image: url(C://Users/gloomikon/Documents/KURSA4_Tetris/imgs/board.jpg) 0 0 0 0 stretch stretch;");
+    //setStyleSheet("border-image: url(/images/board.jpg) 0 0 0 0 stretch stretch;");
     board = new TetrixShape[BoardWidth * BoardHeight];
     setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     setFocusPolicy(Qt::StrongFocus);
@@ -24,6 +27,7 @@ void TetrixBoard::start()
 {
     TetrixWindow::Instance()->getState()->stateToGame(TetrixWindow::Instance());
     TetrixWindow::Instance()->getState()->windowAction(TetrixWindow::Instance());
+    TetrixWindow::Instance()->updateUserName();
     if (isPaused)
         return;
     isStarted = true;
@@ -179,6 +183,7 @@ void TetrixBoard::oneLineDown()
 void TetrixBoard::pieceDropped(int dropHeight)
 {
     curPiece->updateBoard();
+    curPiece->droppedAction();
     ++numPiecesDropped;
     if (numPiecesDropped % 25 == 0)
     {
@@ -194,6 +199,7 @@ void TetrixBoard::pieceDropped(int dropHeight)
 
     if (!isWaitingAfterLine)
         newPiece();
+    update();
 }
 
 void TetrixBoard::removeFullLines()
@@ -298,11 +304,11 @@ void TetrixBoard::newPiece()
 {
     curPiece = nextPiece;
     if (numPiecesDropped % 5 == 0)
-        nextPiece = new lineBombPiece;
+        nextPiece = TetrixPiece::GeneratePiece(QRandomGenerator::global()->bounded(3) + 1);
     else
         nextPiece = new TetrixPiece;
     nextPiece->setRandomShape();
-    showNextPiece();
+    //showNextPiece();
     curX = BoardWidth / 2 + 1;
     curY = BoardHeight - 1 + curPiece->minY();
 
@@ -311,9 +317,10 @@ void TetrixBoard::newPiece()
         curPiece->setShape(NoShape);
         timer.stop();
         isStarted = false;
+        TetrixWindow::Instance()->pasteScore(score);
     }
 }
-void TetrixBoard::showNextPiece()
+/*void TetrixBoard::showNextPiece()
 {
     if (!nextPieceLabel)
         return;
@@ -331,7 +338,7 @@ void TetrixBoard::showNextPiece()
         drawSquare(painter, x * squareWidth(), y * squareHeight(), nextPiece->shape());
     }
     nextPieceLabel->setPixmap(pixmap);
-}
+}*/
 
 bool TetrixBoard::tryMove(TetrixPiece *newPiece, int newX, int newY)
 {
@@ -367,9 +374,9 @@ int TetrixBoard::checkLava()
 
 void TetrixBoard::drawSquare(QPainter &painter, int x, int y, TetrixShape shape)
 {
-    static const std::string pixmapTable[9] = {
+    static const std::string pixmapTable[11] = {
         "red.png", "green.png", "sky.png", "purple.png", "yellow.png", "orange.png", "blue.png",
-        "lava.png", "bomb.png"
+        "lava.png", "bomb.png", "updown.png", "leftright.png"
     };
 //    static const QRgb colorTable[9] = {
 //        0xCC6666, 0x66CC66, 0x6666CC,

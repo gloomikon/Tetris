@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>imgs/background.jpg</file>
+        <file>imgs/blue.png</file>
+        <file>imgs/board.jpg</file>
+        <file>imgs/bomb.png</file>
+        <file>imgs/down.png</file>
+        <file>imgs/green.png</file>
+        <file>imgs/lava.png</file>
+        <file>imgs/left.png</file>
+        <file>imgs/leftright.png</file>
+        <file>imgs/orange.png</file>
+        <file>imgs/purple.png</file>
+        <file>imgs/red.png</file>
+        <file>imgs/right.png</file>
+        <file>imgs/sky.png</file>
+        <file>imgs/tetris.png</file>
+        <file>imgs/up.png</file>
+        <file>imgs/updown.png</file>
+        <file>imgs/yellow.png</file>
+    </qresource>
+    <qresource prefix="/files">
+        <file>src/lastplayer.txt</file>
+        <file>src/records.txt</file>
+    </qresource>
+</RCC>

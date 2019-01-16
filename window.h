@@ -8,7 +8,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QLineEdit>
-#include <QTableView>
+#include <QTableWidget>
 #include "board.h"
 #include "windowstate.h"
 
@@ -21,7 +21,8 @@ struct Profile
 class TetrixWindow : public QWidget
 {
     Q_OBJECT
-
+private slots:
+    void leaderboards();
 public:
     static TetrixWindow* Instance()
     {
@@ -32,11 +33,18 @@ public:
 
     void    layoutClear();
     void    layoutToMainMenu();
+    void    layoutLeaderBoards();
     void    layoutInGame();
     WindowState* getState() { return current; }
+
+    //Profile* getProfiles() { return profiles; }
+    void pasteScore(int score);
+    void updateUserName();
+    void saveLog();
 private:
     TetrixWindow();
     ~TetrixWindow();
+    void sort();
     WindowState *current;
     std::string playerName;
     //TetrixBoard *board;
@@ -57,7 +65,7 @@ private:
     QLabel     *nameLabel;
 
     QLineEdit  *name;
-    QTableView *table;
+    QTableWidget *table;
 
     QGridLayout *layout;
 

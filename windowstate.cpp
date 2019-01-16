@@ -38,5 +38,6 @@ void InGameState::windowAction(TetrixWindow *window)
 
 void ShowLeaderBoardsState::windowAction(TetrixWindow *window)
 {
-//
+    window->layoutClear();
+    window->layoutLeaderBoards();
 }
